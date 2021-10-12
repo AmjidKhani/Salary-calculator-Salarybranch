@@ -15,6 +15,7 @@ class _TotalDaysState extends State<TotalDays> {
   final FController = TextEditingController();
   final TDController = TextEditingController();
   final ResController = TextEditingController();
+  var perdayController = TextEditingController();
   bool isvalid=false;
 
   @override
@@ -464,6 +465,8 @@ class _TotalDaysState extends State<TotalDays> {
                                 value5: FController.text,
                                 value6: TDController.text,
                                 result: ResController.text,
+                                  PaidLeavePay: perdayController.text,
+
                               )));
 
                           PDController.clear();
@@ -513,6 +516,7 @@ class _TotalDaysState extends State<TotalDays> {
     final totalDays = int.parse(TDController.text);
 
     if((presentDays + paidLeave + weeklyOff + festivel) <= 30) {
+      perdayController.text=(netSalary~/totalDays).toString();
     ResController.text =
         (netSalary * ((presentDays + paidLeave+weeklyOff + festivel) / totalDays)).toString();
         isvalid = true;

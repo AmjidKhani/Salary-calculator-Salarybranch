@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:salary_calculator/Animation/PageRouteBuilder.dart';
+import 'package:salary_calculator/Screens/TotalDaysMethod/Total_Days_Method.dart';
 import 'package:salary_calculator/Screens/WorkingDaysMethod/WorkingDaysMethod_Result.dart';
 import 'package:salary_calculator/Screens/WorkingDaysMethod/Working_Days_Method.dart';
 import 'package:salary_calculator/Screens/calculation_method.dart';
@@ -13,7 +14,7 @@ void main() {
     MaterialApp(
       title: "Salary Calculator",
       debugShowCheckedModeBanner: false,
-      home: WorkingDays(),
+      home: TotalDays(),
     ),
   );
 }

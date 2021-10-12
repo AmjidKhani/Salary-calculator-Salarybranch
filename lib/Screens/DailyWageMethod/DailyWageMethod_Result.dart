@@ -58,6 +58,7 @@ class _DailyWageResultState extends State<DailyWageResult> {
               child: SfCircularChart(
                   palette: <Color>[Colors.amber, Colors.grey, Colors.blueAccent, Colors.green],
                   series: <CircularSeries>[
+
                     PieSeries<ChartData, String>(
                         dataSource: chartData,
                         xValueMapper: (ChartData data, _) => data.x,

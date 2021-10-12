@@ -8,23 +8,32 @@ class TotalDaysResult extends StatefulWidget {
   final String value5;
   final String value6;
   final String result;
+  final String PaidLeavePay;
 
    TotalDaysResult({Key key, this.value1, this.value2,this.value3, this.value4,this.value5,
-     this.value6,this.result}) : super(key: key);
+     this.value6,this.PaidLeavePay,this.result}) : super(key: key);
 
   @override
   _TotalDaysResultState createState() => _TotalDaysResultState();
 }
 
 class _TotalDaysResultState extends State<TotalDaysResult> {
+
   @override
+  TooltipBehavior _tooltipBehavior;
+  void initState(){
+    _tooltipBehavior=TooltipBehavior(enable: true);
+    ChartAlignment.center;
+    //_chartData=getChartData();
+    super.initState();
+  }
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      ChartData('Net salary', 25, 'Net Salary\n${widget.value1}',),
-      ChartData('Present Days', 25, 'Present Days\n${widget.value2}'),
-      ChartData('Paid Leave', 25, 'Paid Leave\n${widget.value3}'),
-      ChartData('Weekly Off', 25, 'Weekly Off\n${widget.value4}'),
-      ChartData('Festivel', 25, 'Festivel\n${widget.value5}')
+      ChartData('Net salary', 100, '${widget.value1}',),
+      ChartData('Present Days', 100, '${widget.value2}'),
+      ChartData('PaidLeave pay', 100, '${widget.PaidLeavePay}'),
+      ChartData('Weekly Off', 100, '${widget.value4}'),
+      ChartData('Festivel', 100, '${widget.value5}')
 
     ];
     return Scaffold(
@@ -63,6 +72,10 @@ class _TotalDaysResultState extends State<TotalDaysResult> {
           Container(
               child: SfCircularChart(
                   palette: <Color>[Colors.amber, Colors.grey, Colors.blueAccent, Colors.green,Colors.pinkAccent],
+                  legend:
+                  Legend(isVisible: true,overflowMode: LegendItemOverflowMode.wrap,position:LegendPosition.bottom,
+                  ),
+                  tooltipBehavior: _tooltipBehavior,
                   series: <CircularSeries>[
                     PieSeries<ChartData, String>(
                         dataSource: chartData,
@@ -73,6 +86,7 @@ class _TotalDaysResultState extends State<TotalDaysResult> {
                         pointColorMapper: (ChartData data,_) => data.color,
                         dataLabelSettings: DataLabelSettings(
                             isVisible: true
+
                         )
                     )
                   ]
