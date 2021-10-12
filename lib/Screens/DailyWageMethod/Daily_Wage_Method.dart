@@ -12,7 +12,7 @@ class DailyWage extends StatefulWidget {
 class _DailyWageState extends State<DailyWage> {
   final NDWController = TextEditingController();
   final PDController = TextEditingController();
-  final ResController = TextEditingController();
+  final ResController = TextEditingController();;
 
   @override
   void dispose() {
