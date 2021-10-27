@@ -1,17 +1,20 @@
 
 import 'dart:ui';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salary_calculator/Animation/PageRouteBuilder.dart';
 import 'package:salary_calculator/Screens/WorkingDaysMethod/WorkingDaysMethod_Result.dart';
 
 class WorkingDays extends StatefulWidget {
+
   @override
   _WorkingDaysState createState() => _WorkingDaysState();
 }
 
 class _WorkingDaysState extends State<WorkingDays> {
   String value;
+  final databaseRef = FirebaseDatabase.instance.reference();
   final NSController = TextEditingController();
   final PDController = TextEditingController();
   final PLController = TextEditingController();
@@ -19,20 +22,7 @@ class _WorkingDaysState extends State<WorkingDays> {
   final ResController = TextEditingController();
   final perdayController = TextEditingController();
   bool isValid = false;
-  // bool Nsvalidate;
-  // bool PDvalidate;
-  // bool PLvalidate;
-  // bool WDvalidate;
-
-  //@override
-  // void initState(){
-  //   super.initState();
-  //    Nsvalidate=false;
-  //    PDvalidate=false;
-  //    PLvalidate=false;
-  //    WDvalidate=false;
-  // }
-
+  bool isvalid=false;
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -97,10 +87,11 @@ class _WorkingDaysState extends State<WorkingDays> {
                     padding: EdgeInsets.only(left: 14, right: 14, top: 8),
                     child: TextField(
                       controller: NSController,
-                      onChanged: (value) {
-                        //_calculate();
-                        value=value;
-                      },
+
+                       onChanged: (value) {
+                        _calculate();
+
+                       },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -130,9 +121,8 @@ class _WorkingDaysState extends State<WorkingDays> {
                   child: TextField(
                     controller: PDController,
                     onChanged: (value) {
-                      //_calculate();
-                      value=value;
-                    },
+                      _calculate();
+                      },
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(14.0),
@@ -162,9 +152,8 @@ class _WorkingDaysState extends State<WorkingDays> {
                   child: TextField(
                     controller: PLController,
                     onChanged: (value) {
-                      // _calculate();
-                      value=value;
-                    },
+                       _calculate();
+                       },
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(14.0),
@@ -193,9 +182,8 @@ class _WorkingDaysState extends State<WorkingDays> {
                   padding: EdgeInsets.only(left: 14, right: 14, top: 8),
                   child: TextField(
                     controller: WDController,
-                    onSubmitted: (value) {
-                      //_calculate();
-                      value=value;
+                    onChanged: (value) {
+                      _calculate();
                     },
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -236,6 +224,10 @@ class _WorkingDaysState extends State<WorkingDays> {
                           ),
                         ),
                         onPressed: () {
+                          _calculate();
+                          if(NSController.text.isNotEmpty&& PDController.text.isNotEmpty&& PLController.text.isNotEmpty&&WDController.text.isNotEmpty&&ResController.text.isNotEmpty) {
+                            insertData(NSController.text, PDController.text,PLController.text,WDController.text,ResController.text);
+                          }
                           if (NSController.text
                               .trim()
                               .isEmpty &&
@@ -357,6 +349,7 @@ class _WorkingDaysState extends State<WorkingDays> {
                           }
                           else {
                             _calculate();
+
                            isValid == false ? showSnackBar() : Navigator.push(
                                 context,
                                 BouncyPageRoute(WorkingDaysResult(
@@ -424,4 +417,20 @@ class _WorkingDaysState extends State<WorkingDays> {
     }
 
  }
-  }
+  insertData(String Net_Sallary, String Predent_Days,String Paid_Leaves,String Working_Days,String ResController) {
+    String key = databaseRef
+        .child("Another_Total_Days Recorde")
+        .child("list_Of Recorde")
+        .push()
+        .key;
+    databaseRef.child("Working_Days_Methode").child("list_Of Recorde").child(
+        key).set({
+      'id': key,
+      "Net_Sallary": Net_Sallary,
+      "Predent_Days": Predent_Days,
+      "Paid_Leaves": Paid_Leaves,
+      "Working_Days": Working_Days,
+      "Gross Sallary": ResController,
+    });
+  }}
+

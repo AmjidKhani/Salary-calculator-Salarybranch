@@ -8,13 +8,15 @@ import 'package:salary_calculator/Screens/WorkingDaysMethod/Working_Days_Method.
 import 'package:salary_calculator/Screens/calculation_method.dart';
 import 'package:salary_calculator/Screens/DailyWageMethod/Daily_Wage_Method.dart';
 import 'package:path/path.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(
     MaterialApp(
       title: "Salary Calculator",
       debugShowCheckedModeBanner: false,
-      home: TotalDays(),
+      home:MyApp(),
     ),
   );
 }
@@ -26,6 +28,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+  final Future<FirebaseApp> _future = Firebase.initializeApp();
   void initState() {
     Future.delayed(Duration(seconds: 4), () {
       Navigator.pushReplacement(

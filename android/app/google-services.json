@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "846412982129",
+    "project_id": "sallarycalculator",
+    "storage_bucket": "sallarycalculator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846412982129:android:8893e01c643c985fe538d0",
+        "android_client_info": {
+          "package_name": "com.example.salary_calculator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846412982129-ljvmmdf15l7vgldq88qm2k35g04m7q2b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.salary_calculator",
+            "certificate_hash": "55c2e5923781376eb87d13017558bc1fb86b5b3b"
+          }
+        },
+        {
+          "client_id": "846412982129-ij84ggqvf2nflll2p4kbdv9po7fl5pol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_xQUQaMzG34BRAv6gokhou8y0DoaaSn8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846412982129-ij84ggqvf2nflll2p4kbdv9po7fl5pol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

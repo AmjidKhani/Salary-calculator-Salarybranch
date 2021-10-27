@@ -29,12 +29,11 @@ class _TotalDaysResultState extends State<TotalDaysResult> {
   }
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      ChartData('Net salary', 100, '${widget.value1}',),
-      ChartData('Present Days', 100, '${widget.value2}'),
-      ChartData('PaidLeave pay', 100, '${widget.PaidLeavePay}'),
-      ChartData('Weekly Off', 100, '${widget.value4}'),
-      ChartData('Festivel', 100, '${widget.value5}')
-
+      ChartData('Net salary',25, '${widget.value1}',),
+      ChartData('Present Days', 25, '${widget.value2}'),
+      ChartData('PaidLeave pay', 25, '${widget.PaidLeavePay}'),
+      ChartData('Weekly Off', 25, '${widget.value4}'),
+      ChartData('Festivel', 25, '${widget.value5}')
     ];
     return Scaffold(
       appBar: AppBar(

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salary_calculator/Animation/PageRouteBuilder.dart';
@@ -12,8 +13,8 @@ class DailyWage extends StatefulWidget {
 class _DailyWageState extends State<DailyWage> {
   final NDWController = TextEditingController();
   final PDController = TextEditingController();
-  final ResController = TextEditingController();;
-
+  final ResController = TextEditingController();
+  final databaseRef = FirebaseDatabase.instance.reference();
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -77,8 +78,8 @@ class _DailyWageState extends State<DailyWage> {
                       keyboardType: TextInputType.number,
                       controller: NDWController,
                       onChanged: (value) {
-                        //_calculate();
-                        value=value;
+                        _calculate();
+
                       },
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -109,9 +110,8 @@ class _DailyWageState extends State<DailyWage> {
                       keyboardType: TextInputType.number,
                       controller: PDController,
                       onChanged: (value) {
-                        //_calculate();
-                        value=value;
-                      },
+                        _calculate();
+                        },
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(14.0),
                         floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -138,11 +138,12 @@ class _DailyWageState extends State<DailyWage> {
                 ),
                 Container(
                   padding:
-                      const EdgeInsets.only(top: 24.0, left: 16, right: 16),
+                  const EdgeInsets.only(top: 24.0, left: 16, right: 16),
                   child: SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
+
                         child: Text(
                           "Calculate",
                           style: TextStyle(
@@ -152,35 +153,50 @@ class _DailyWageState extends State<DailyWage> {
                           ),
                         ),
                         onPressed: () {
-                          if (NDWController.text.trim().isEmpty &&
-                            PDController.text.trim().isEmpty) {
-                          Widget okButton = TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text("OK"));
-                          AlertDialog alertDialog = AlertDialog(
-                            content: Text("Please Enter Net wage and present days"),
-                            actions: [
-                              okButton,
-                            ],
-                          );
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return alertDialog;
-                            },
-                          );
-                        }
+                          _calculate();
+                          if(NDWController.text.isNotEmpty&& PDController.text.isNotEmpty&&ResController.text.isNotEmpty) {
+                            insertData(NDWController.text, PDController.text,
+                                ResController.text);
+                          }
 
-                           else if (NDWController.text.trim().isEmpty &&
-                              PDController.text.trim().isNotEmpty) {
+                          if (NDWController.text
+                              .trim()
+                              .isEmpty &&
+                              PDController.text
+                                  .trim()
+                                  .isEmpty) {
                             Widget okButton = TextButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
                                 child: Text("OK"));
-                               AlertDialog alertDialog = AlertDialog(
+                            AlertDialog alertDialog = AlertDialog(
+                              content: Text(
+                                  "Please Enter Net wage and present days"),
+                              actions: [
+                                okButton,
+                              ],
+                            );
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return alertDialog;
+                              },
+                            );
+                          }
+
+                          else if (NDWController.text
+                              .trim()
+                              .isEmpty &&
+                              PDController.text
+                                  .trim()
+                                  .isNotEmpty) {
+                            Widget okButton = TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("OK"));
+                            AlertDialog alertDialog = AlertDialog(
                               content: Text("Please Enter Net wage"),
                               actions: [
                                 okButton,
@@ -194,8 +210,12 @@ class _DailyWageState extends State<DailyWage> {
                             );
                           }
 
-                          else if (NDWController.text.trim().isNotEmpty &&
-                              PDController.text.trim().isEmpty) {
+                          else if (NDWController.text
+                              .trim()
+                              .isNotEmpty &&
+                              PDController.text
+                                  .trim()
+                                  .isEmpty) {
                             Widget okButton = TextButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
@@ -217,6 +237,8 @@ class _DailyWageState extends State<DailyWage> {
 
                           else {
                             _calculate();
+
+
                             Navigator.push(
                               context,
                               BouncyPageRoute(DailyWageResult(
@@ -225,14 +247,14 @@ class _DailyWageState extends State<DailyWage> {
                                 result: ResController.text,
                               )),
                             );
-                             NDWController.clear();
-                             PDController.clear();
+                            NDWController.clear();
+                            PDController.clear();
                           }
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.orangeAccent,
                         )
-    ),
+                    ),
                   ),
                 ),
               ],
@@ -256,9 +278,19 @@ class _DailyWageState extends State<DailyWage> {
     );
   }
 
-  void _calculate() {
-      final firstValue = int.parse(NDWController.text);
-      final secondValue = int.parse(PDController.text);
-      ResController.text = (firstValue * secondValue).toString();
+  _calculate() {
+    final firstValue = int.parse(NDWController.text);
+    final secondValue = int.parse(PDController.text);
+    ResController.text = (firstValue * secondValue).toString();
+  }
+
+  insertData(String Net_Sallary, String Predent_Days, String ResController) {
+    String key=databaseRef.child("Another DailyWage Recorde").child("list_Of Recorde").push().key;
+    databaseRef.child("Daily_Weges Methode").child("list_Of Recorde").child(key).set({
+     'id':key,
+      "Net_Sallary": Net_Sallary,
+      "Predent_Days": Predent_Days,
+      "Gross Sallary": ResController,
+    });
   }
 }

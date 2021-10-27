@@ -5,7 +5,7 @@ class DailyWageResult extends StatefulWidget {
   final String value1;
   final String value2;
   final String result;
-  DailyWageResult({Key key, this.value1, this.value2,this.result}) : super(key: key);
+  DailyWageResult({Key key, this.value1, this.value2,this.result}):super(key: key);
 
   @override
   _DailyWageResultState createState() => _DailyWageResultState();
@@ -13,10 +13,17 @@ class DailyWageResult extends StatefulWidget {
 
 class _DailyWageResultState extends State<DailyWageResult> {
   @override
+  TooltipBehavior _tooltipBehavior;
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(enable: true);
+    ChartAlignment.center;
+    //_chartData=getChartData();
+    super.initState();
+  }
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      ChartData('Net Daily wage', 25, 'Net Daily wage\n${widget.value1}',),
-      ChartData('Present Days', 25, 'Present Days\n${widget.value2}'),
+      ChartData('Net Daily wage', 25,'${widget.value1}',),
+      ChartData('Present Days', 25, '${widget.value2}'),
 
 
     ];
@@ -57,8 +64,13 @@ class _DailyWageResultState extends State<DailyWageResult> {
           Container(
               child: SfCircularChart(
                   palette: <Color>[Colors.amber, Colors.grey, Colors.blueAccent, Colors.green],
-                  series: <CircularSeries>[
 
+                  legend:
+
+                  Legend(isVisible: true,overflowMode: LegendItemOverflowMode.wrap,position:LegendPosition.bottom,
+                  ),
+                  tooltipBehavior: _tooltipBehavior,
+                  series: <CircularSeries>[
                     PieSeries<ChartData, String>(
                         dataSource: chartData,
                         xValueMapper: (ChartData data, _) => data.x,
